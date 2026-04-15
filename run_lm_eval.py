@@ -268,6 +268,24 @@ TASK_DESCRIPTIONS = {
         "metric": "acc_norm (정규화 정확도)",
         "num_fewshot": 0,
     },
+
+    # -------------------------------------------------------------------------
+    # [10] WikiText - Perplexity (언어모델링 난이도)
+    # -------------------------------------------------------------------------
+    # 유형: 언어모델링 (다음 토큰 예측 확률 기반)
+    # 평가 지표: word_perplexity, byte_perplexity, bits_per_byte
+    #
+    # 설명:
+    #   위키텍스트 코퍼스에서 모델이 텍스트를 얼마나 "덜 놀라며" 예측하는지 평가합니다.
+    #   perplexity는 낮을수록 좋으며, 분류 정확도(acc) 계열과는 해석 방향이 반대입니다.
+    # -------------------------------------------------------------------------
+    "wikitext": {
+        "name": "WikiText",
+        "category": "언어모델링 (Perplexity)",
+        "description": "위키텍스트 기반 언어모델링 난이도 평가 (낮을수록 좋음)",
+        "metric": "word_perplexity (낮을수록 좋음)",
+        "num_fewshot": 0,
+    },
 }
 
 # =============================================================================
@@ -281,6 +299,7 @@ DEFAULT_TASKS = [
     "winogrande",      # 대명사 해석 (~5분)
     "piqa",            # 물리적 상식 (~5분)
     "boolq",           # 독해력 (~5분)
+    "wikitext",        # perplexity (~수 분)
 ]
 
 
@@ -429,11 +448,13 @@ def save_results(results: dict, output_path: str) -> None:
     """
     os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else ".", exist_ok=True)
 
-    # datetime 등 직렬화 불가능한 객체 처리
+    # datetime/함수 등 직렬화 불가능한 객체 처리
     def default_serializer(obj):
         if isinstance(obj, datetime):
             return obj.isoformat()
-        raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+        if callable(obj):
+            return getattr(obj, "__name__", str(obj))
+        return str(obj)
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False, default=default_serializer)

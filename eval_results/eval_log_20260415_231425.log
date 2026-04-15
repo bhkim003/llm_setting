@@ -1,0 +1,137 @@
+================================================================================
+  🦙 Llama 3.2 1B lm_eval 벤치마크 평가
+  모델 경로: /data2/llm_download/Llama-3.2-1B
+  시작 시간: 2026-04-15 23:14:29
+================================================================================
+
+================================================================================
+  📋 실행할 벤치마크 태스크 목록
+================================================================================
+
+  [1] HellaSwag (태스크명: hellaswag)
+      카테고리: 상식 추론 (Commonsense Reasoning)
+      설명: 상황에 이어질 가장 자연스러운 문장을 고르는 태스크
+      평가 지표: acc_norm (정규화 정확도)
+      Few-shot 수: 10
+
+  [2] ARC-Challenge (태스크명: arc_challenge)
+      카테고리: 과학 추론 (Science Reasoning)
+      설명: 초중등 수준 과학 문제 중 어려운 문제들
+      평가 지표: acc_norm (정규화 정확도)
+      Few-shot 수: 25
+
+  [3] WinoGrande (태스크명: winogrande)
+      카테고리: 상식 추론 / 대명사 해석
+      설명: 대명사가 가리키는 대상을 상식으로 추론하는 태스크
+      평가 지표: acc (정확도)
+      Few-shot 수: 5
+
+  [4] PIQA (태스크명: piqa)
+      카테고리: 물리적 상식 (Physical Commonsense)
+      설명: 물리적 세계에 대한 직관적 이해를 평가하는 태스크
+      평가 지표: acc_norm (정규화 정확도)
+      Few-shot 수: 0
+
+  [5] BoolQ (태스크명: boolq)
+      카테고리: 독해 / 질의응답 (Reading Comprehension)
+      설명: 지문을 읽고 예/아니오로 답하는 태스크
+      평가 지표: acc (정확도)
+      Few-shot 수: 0
+
+  [6] WikiText (태스크명: wikitext)
+      카테고리: 언어모델링 (Perplexity)
+      설명: 위키텍스트 기반 언어모델링 난이도 평가 (낮을수록 좋음)
+      평가 지표: word_perplexity (낮을수록 좋음)
+      Few-shot 수: 0
+
+================================================================================
+  🚀 lm_eval 벤치마크 평가 시작
+================================================================================
+
+  모델 로딩 중: /data2/llm_download/Llama-3.2-1B
+  배치 크기: auto
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   1%|          | 1/146 [00:00<00:27,  5.34it/s]Loading weights:  33%|███▎      | 48/146 [00:00<00:00, 198.48it/s]Loading weights:  51%|█████▏    | 75/146 [00:00<00:00, 223.06it/s]Loading weights:  70%|██████▉   | 102/146 [00:00<00:00, 235.97it/s]Loading weights:  88%|████████▊ | 128/146 [00:00<00:00, 235.83it/s]Loading weights: 100%|██████████| 146/146 [00:00<00:00, 212.71it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[Task: boolq] metric acc is defined, but aggregation is not. using default aggregation=mean
+[Task: boolq] metric acc is defined, but higher_is_better is not. using default higher_is_better=True
+[Task: wikitext] metric word_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+[Task: wikitext] metric word_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+[Task: wikitext] metric byte_perplexity is defined, but aggregation is not. using default aggregation=weighted_perplexity
+[Task: wikitext] metric byte_perplexity is defined, but higher_is_better is not. using default higher_is_better=False
+[Task: wikitext] metric bits_per_byte is defined, but aggregation is not. using default aggregation=bits_per_byte
+[Task: wikitext] metric bits_per_byte is defined, but higher_is_better is not. using default higher_is_better=False
+
+  평가 태스크: hellaswag, arc_challenge, winogrande, piqa, boolq, wikitext
+  ⚠️  샘플 제한: 0.1 (빠른 테스트 모드)
+  평가를 시작합니다... (태스크에 따라 수 분~수십 분 소요)
+
+Generating train split:   0%|          | 0/629 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 629/629 [00:00<00:00, 5717.31 examples/s]
+Generating validation split:   0%|          | 0/60 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 60/60 [00:00<00:00, 4381.92 examples/s]
+Generating test split:   0%|          | 0/62 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 62/62 [00:00<00:00, 4722.37 examples/s]
+  0%|          | 0/7 [00:00<?, ?it/s]100%|██████████| 7/7 [00:00<00:00, 299.26it/s]
+  0%|          | 0/327 [00:00<?, ?it/s] 56%|█████▌    | 182/327 [00:00<00:00, 1813.80it/s]100%|██████████| 327/327 [00:00<00:00, 1814.61it/s]
+  0%|          | 0/184 [00:00<?, ?it/s] 36%|███▌      | 66/184 [00:00<00:00, 657.45it/s] 73%|███████▎  | 134/184 [00:00<00:00, 668.83it/s]100%|██████████| 184/184 [00:00<00:00, 665.10it/s]
+  0%|          | 0/127 [00:00<?, ?it/s]100%|██████████| 127/127 [00:00<00:00, 43748.08it/s]
+  0%|          | 0/118 [00:00<?, ?it/s] 42%|████▏     | 49/118 [00:00<00:00, 484.00it/s] 83%|████████▎ | 98/118 [00:00<00:00, 478.25it/s]100%|██████████| 118/118 [00:00<00:00, 480.87it/s]
+  0%|          | 0/1005 [00:00<?, ?it/s] 13%|█▎        | 127/1005 [00:00<00:00, 1268.99it/s] 25%|██▌       | 254/1005 [00:00<00:00, 1268.68it/s] 38%|███▊      | 383/1005 [00:00<00:00, 1275.99it/s] 51%|█████     | 511/1005 [00:00<00:00, 1269.49it/s] 64%|██████▎   | 639/1005 [00:00<00:00, 1270.01it/s] 76%|███████▋  | 767/1005 [00:00<00:00, 1267.08it/s] 89%|████████▉ | 895/1005 [00:00<00:00, 1268.23it/s]100%|██████████| 1005/1005 [00:00<00:00, 1268.64it/s]
+Passed argument batch_size = auto. Detecting largest batch size
+Determined Largest batch size: 1
+  0%|          | 0/7 [00:00<?, ?it/s]100%|██████████| 7/7 [00:00<00:00, 84.18it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  7.39it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  7.38it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  2.68it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  2.68it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  5.21it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  5.20it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  1.56it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  1.56it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  6.25it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  6.24it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  5.38it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:00<00:00,  5.37it/s]
+Running loglikelihood requests:   0%|          | 0/1 [00:00<?, ?it/s]Running loglikelihood requests: 100%|██████████| 1/1 [00:01<00:00,  1.00s/it]Running loglikelihood requests: 100%|██████████| 1/1 [00:01<00:00,  1.00s/it]
+Running loglikelihood requests:   0%|          | 0/5768 [00:00<?, ?it/s]Running loglikelihood requests:   0%|          | 1/5768 [00:28<45:05:51, 28.15s/it]Running loglikelihood requests:   1%|          | 31/5768 [00:28<1:02:12,  1.54it/s]Running loglikelihood requests:   1%|          | 61/5768 [00:28<26:15,  3.62it/s]  Running loglikelihood requests:   2%|▏         | 91/5768 [00:28<14:32,  6.50it/s]Running loglikelihood requests:   2%|▏         | 121/5768 [00:29<09:00, 10.44it/s]Running loglikelihood requests:   3%|▎         | 151/5768 [00:29<05:56, 15.75it/s]Running loglikelihood requests:   3%|▎         | 180/5768 [00:29<04:08, 22.52it/s]Running loglikelihood requests:   4%|▎         | 209/5768 [00:29<02:57, 31.37it/s]Running loglikelihood requests:   4%|▍         | 239/5768 [00:29<02:08, 43.03it/s]Running loglikelihood requests:   5%|▍         | 269/5768 [00:29<01:35, 57.53it/s]Running loglikelihood requests:   5%|▌         | 299/5768 [00:29<01:13, 74.55it/s]Running loglikelihood requests:   6%|▌         | 329/5768 [00:30<00:58, 93.69it/s]Running loglikelihood requests:   6%|▌         | 359/5768 [00:30<00:47, 114.36it/s]Running loglikelihood requests:   7%|▋         | 387/5768 [00:30<00:40, 132.59it/s]Running loglikelihood requests:   7%|▋         | 417/5768 [00:30<00:34, 155.17it/s]Running loglikelihood requests:   8%|▊         | 444/5768 [00:30<00:31, 170.67it/s]Running loglikelihood requests:   8%|▊         | 474/5768 [00:30<00:27, 192.20it/s]Running loglikelihood requests:   9%|▊         | 499/5768 [00:30<00:25, 202.80it/s]Running loglikelihood requests:   9%|▉         | 523/5768 [00:30<00:24, 210.57it/s]Running loglikelihood requests:  10%|▉         | 549/5768 [00:31<00:23, 223.01it/s]Running loglikelihood requests:  10%|█         | 585/5768 [00:31<00:24, 212.41it/s]Running loglikelihood requests:  11%|█         | 623/5768 [00:31<00:24, 214.11it/s]Running loglikelihood requests:  11%|█▏        | 658/5768 [00:31<00:24, 210.30it/s]Running loglikelihood requests:  12%|█▏        | 694/5768 [00:31<00:23, 213.23it/s]Running loglikelihood requests:  13%|█▎        | 731/5768 [00:31<00:23, 218.43it/s]Running loglikelihood requests:  13%|█▎        | 765/5768 [00:32<00:23, 215.76it/s]Running loglikelihood requests:  14%|█▍        | 796/5768 [00:32<00:23, 210.89it/s]Running loglikelihood requests:  14%|█▍        | 830/5768 [00:32<00:22, 215.81it/s]Running loglikelihood requests:  15%|█▍        | 863/5768 [00:32<00:22, 220.90it/s]Running loglikelihood requests:  16%|█▌        | 899/5768 [00:32<00:21, 230.45it/s]Running loglikelihood requests:  16%|█▌        | 930/5768 [00:32<00:21, 228.02it/s]Running loglikelihood requests:  17%|█▋        | 962/5768 [00:32<00:20, 228.99it/s]Running loglikelihood requests:  17%|█▋        | 993/5768 [00:33<00:21, 226.77it/s]Running loglikelihood requests:  18%|█▊        | 1024/5768 [00:33<00:20, 225.99it/s]Running loglikelihood requests:  18%|█▊        | 1056/5768 [00:33<00:20, 227.97it/s]Running loglikelihood requests:  19%|█▉        | 1087/5768 [00:33<00:20, 227.71it/s]Running loglikelihood requests:  19%|█▉        | 1117/5768 [00:33<00:20, 225.63it/s]Running loglikelihood requests:  20%|█▉        | 1148/5768 [00:33<00:20, 226.67it/s]Running loglikelihood requests:  20%|██        | 1178/5768 [00:33<00:20, 226.97it/s]Running loglikelihood requests:  21%|██        | 1209/5768 [00:34<00:19, 229.98it/s]Running loglikelihood requests:  21%|██▏       | 1239/5768 [00:34<00:19, 231.27it/s]Running loglikelihood requests:  22%|██▏       | 1269/5768 [00:34<00:19, 232.24it/s]Running loglikelihood requests:  23%|██▎       | 1299/5768 [00:34<00:19, 233.22it/s]Running loglikelihood requests:  23%|██▎       | 1329/5768 [00:34<00:18, 233.88it/s]Running loglikelihood requests:  24%|██▎       | 1359/5768 [00:34<00:18, 235.00it/s]Running loglikelihood requests:  24%|██▍       | 1389/5768 [00:34<00:18, 235.39it/s]Running loglikelihood requests:  25%|██▍       | 1419/5768 [00:34<00:18, 235.95it/s]Running loglikelihood requests:  25%|██▌       | 1449/5768 [00:35<00:18, 236.27it/s]Running loglikelihood requests:  26%|██▌       | 1479/5768 [00:35<00:18, 237.20it/s]Running loglikelihood requests:  26%|██▌       | 1509/5768 [00:35<00:17, 237.98it/s]Running loglikelihood requests:  27%|██▋       | 1539/5768 [00:35<00:17, 238.51it/s]Running loglikelihood requests:  27%|██▋       | 1570/5768 [00:35<00:17, 241.21it/s]Running loglikelihood requests:  28%|██▊       | 1601/5768 [00:35<00:17, 243.33it/s]Running loglikelihood requests:  28%|██▊       | 1631/5768 [00:35<00:17, 242.40it/s]Running loglikelihood requests:  29%|██▉       | 1661/5768 [00:35<00:16, 242.34it/s]Running loglikelihood requests:  29%|██▉       | 1691/5768 [00:36<00:16, 242.27it/s]Running loglikelihood requests:  30%|██▉       | 1721/5768 [00:36<00:16, 244.16it/s]Running loglikelihood requests:  30%|███       | 1751/5768 [00:36<00:16, 248.92it/s]Running loglikelihood requests:  31%|███       | 1781/5768 [00:36<00:15, 251.96it/s]Running loglikelihood requests:  31%|███▏      | 1811/5768 [00:36<00:15, 254.12it/s]Running loglikelihood requests:  32%|███▏      | 1841/5768 [00:36<00:15, 256.25it/s]Running loglikelihood requests:  32%|███▏      | 1871/5768 [00:36<00:15, 257.39it/s]Running loglikelihood requests:  33%|███▎      | 1901/5768 [00:36<00:14, 258.02it/s]Running loglikelihood requests:  33%|███▎      | 1931/5768 [00:36<00:14, 259.26it/s]Running loglikelihood requests:  34%|███▍      | 1961/5768 [00:37<00:14, 259.79it/s]Running loglikelihood requests:  35%|███▍      | 1992/5768 [00:37<00:14, 262.71it/s]Running loglikelihood requests:  35%|███▌      | 2022/5768 [00:37<00:14, 262.09it/s]Running loglikelihood requests:  36%|███▌      | 2055/5768 [00:37<00:13, 269.68it/s]Running loglikelihood requests:  36%|███▌      | 2085/5768 [00:37<00:13, 267.13it/s]Running loglikelihood requests:  37%|███▋      | 2115/5768 [00:37<00:13, 265.58it/s]Running loglikelihood requests:  37%|███▋      | 2145/5768 [00:37<00:13, 264.93it/s]Running loglikelihood requests:  38%|███▊      | 2176/5768 [00:37<00:13, 267.06it/s]Running loglikelihood requests:  38%|███▊      | 2206/5768 [00:37<00:13, 266.63it/s]Running loglikelihood requests:  39%|███▉      | 2236/5768 [00:38<00:13, 265.18it/s]Running loglikelihood requests:  39%|███▉      | 2266/5768 [00:38<00:13, 265.81it/s]Running loglikelihood requests:  40%|███▉      | 2296/5768 [00:38<00:13, 265.83it/s]Running loglikelihood requests:  40%|████      | 2326/5768 [00:38<00:12, 265.69it/s]Running loglikelihood requests:  41%|████      | 2356/5768 [00:38<00:12, 266.04it/s]Running loglikelihood requests:  41%|████▏     | 2387/5768 [00:38<00:12, 267.93it/s]Running loglikelihood requests:  42%|████▏     | 2417/5768 [00:38<00:12, 267.94it/s]Running loglikelihood requests:  42%|████▏     | 2447/5768 [00:38<00:12, 267.71it/s]Running loglikelihood requests:  43%|████▎     | 2477/5768 [00:38<00:12, 267.84it/s]Running loglikelihood requests:  43%|████▎     | 2507/5768 [00:39<00:12, 267.25it/s]Running loglikelihood requests:  44%|████▍     | 2537/5768 [00:39<00:12, 268.73it/s]Running loglikelihood requests:  45%|████▍     | 2567/5768 [00:39<00:11, 269.87it/s]Running loglikelihood requests:  45%|████▌     | 2600/5768 [00:39<00:11, 278.90it/s]Running loglikelihood requests:  46%|████▌     | 2630/5768 [00:39<00:11, 276.62it/s]Running loglikelihood requests:  46%|████▌     | 2660/5768 [00:39<00:11, 275.27it/s]Running loglikelihood requests:  47%|████▋     | 2690/5768 [00:39<00:11, 274.18it/s]Running loglikelihood requests:  47%|████▋     | 2720/5768 [00:39<00:11, 274.06it/s]Running loglikelihood requests:  48%|████▊     | 2750/5768 [00:39<00:11, 273.99it/s]Running loglikelihood requests:  48%|████▊     | 2780/5768 [00:40<00:10, 274.10it/s]Running loglikelihood requests:  49%|████▊     | 2810/5768 [00:40<00:10, 280.70it/s]Running loglikelihood requests:  49%|████▉     | 2855/5768 [00:40<00:09, 295.06it/s]Running loglikelihood requests:  50%|█████     | 2900/5768 [00:40<00:09, 303.32it/s]Running loglikelihood requests:  51%|█████     | 2945/5768 [00:40<00:09, 309.09it/s]Running loglikelihood requests:  52%|█████▏    | 2990/5768 [00:40<00:08, 313.03it/s]Running loglikelihood requests:  53%|█████▎    | 3035/5768 [00:40<00:08, 316.09it/s]Running loglikelihood requests:  53%|█████▎    | 3080/5768 [00:41<00:08, 318.67it/s]Running loglikelihood requests:  54%|█████▍    | 3125/5768 [00:41<00:08, 320.04it/s]Running loglikelihood requests:  55%|█████▍    | 3170/5768 [00:41<00:08, 321.55it/s]Running loglikelihood requests:  56%|█████▌    | 3215/5768 [00:41<00:07, 322.60it/s]Running loglikelihood requests:  57%|█████▋    | 3260/5768 [00:41<00:07, 323.27it/s]Running loglikelihood requests:  57%|█████▋    | 3305/5768 [00:41<00:07, 323.67it/s]Running loglikelihood requests:  58%|█████▊    | 3350/5768 [00:41<00:07, 324.75it/s]Running loglikelihood requests:  59%|█████▉    | 3395/5768 [00:42<00:07, 324.92it/s]Running loglikelihood requests:  60%|█████▉    | 3440/5768 [00:42<00:07, 324.60it/s]Running loglikelihood requests:  60%|██████    | 3486/5768 [00:42<00:06, 327.79it/s]Running loglikelihood requests:  61%|██████    | 3531/5768 [00:42<00:06, 328.57it/s]Running loglikelihood requests:  62%|██████▏   | 3576/5768 [00:42<00:06, 329.16it/s]Running loglikelihood requests:  63%|██████▎   | 3621/5768 [00:42<00:06, 329.37it/s]Running loglikelihood requests:  64%|██████▎   | 3666/5768 [00:42<00:06, 330.10it/s]Running loglikelihood requests:  64%|██████▍   | 3711/5768 [00:42<00:06, 331.13it/s]Running loglikelihood requests:  65%|██████▌   | 3756/5768 [00:43<00:06, 331.66it/s]Running loglikelihood requests:  66%|██████▌   | 3802/5768 [00:43<00:05, 333.95it/s]Running loglikelihood requests:  67%|██████▋   | 3847/5768 [00:43<00:05, 333.83it/s]Running loglikelihood requests:  67%|██████▋   | 3893/5768 [00:43<00:05, 335.91it/s]Running loglikelihood requests:  68%|██████▊   | 3938/5768 [00:43<00:05, 335.35it/s]Running loglikelihood requests:  69%|██████▉   | 3983/5768 [00:43<00:05, 335.24it/s]Running loglikelihood requests:  70%|██████▉   | 4028/5768 [00:43<00:05, 335.62it/s]Running loglikelihood requests:  71%|███████   | 4073/5768 [00:44<00:05, 335.88it/s]Running loglikelihood requests:  71%|███████▏  | 4118/5768 [00:44<00:04, 341.00it/s]Running loglikelihood requests:  72%|███████▏  | 4163/5768 [00:44<00:04, 355.72it/s]Running loglikelihood requests:  73%|███████▎  | 4208/5768 [00:44<00:04, 368.33it/s]Running loglikelihood requests:  74%|███████▎  | 4253/5768 [00:44<00:04, 376.50it/s]Running loglikelihood requests:  75%|███████▍  | 4298/5768 [00:44<00:03, 384.37it/s]Running loglikelihood requests:  75%|███████▌  | 4343/5768 [00:44<00:03, 389.09it/s]Running loglikelihood requests:  76%|███████▌  | 4388/5768 [00:44<00:03, 393.28it/s]Running loglikelihood requests:  77%|███████▋  | 4436/5768 [00:44<00:03, 404.22it/s]Running loglikelihood requests:  78%|███████▊  | 4481/5768 [00:45<00:03, 405.01it/s]Running loglikelihood requests:  79%|███████▊  | 4529/5768 [00:45<00:02, 413.26it/s]Running loglikelihood requests:  79%|███████▉  | 4574/5768 [00:45<00:02, 412.89it/s]Running loglikelihood requests:  80%|████████  | 4619/5768 [00:45<00:02, 412.18it/s]Running loglikelihood requests:  81%|████████  | 4664/5768 [00:45<00:02, 412.87it/s]Running loglikelihood requests:  82%|████████▏ | 4710/5768 [00:45<00:02, 417.59it/s]Running loglikelihood requests:  82%|████████▏ | 4755/5768 [00:45<00:02, 416.65it/s]Running loglikelihood requests:  83%|████████▎ | 4800/5768 [00:45<00:02, 417.28it/s]Running loglikelihood requests:  84%|████████▍ | 4845/5768 [00:45<00:02, 417.83it/s]Running loglikelihood requests:  85%|████████▍ | 4890/5768 [00:46<00:02, 418.83it/s]Running loglikelihood requests:  86%|████████▌ | 4935/5768 [00:46<00:01, 418.94it/s]Running loglikelihood requests:  86%|████████▋ | 4980/5768 [00:46<00:01, 421.01it/s]Running loglikelihood requests:  87%|████████▋ | 5025/5768 [00:46<00:01, 427.53it/s]Running loglikelihood requests:  88%|████████▊ | 5087/5768 [00:46<00:01, 454.43it/s]Running loglikelihood requests:  89%|████████▉ | 5147/5768 [00:46<00:01, 466.36it/s]Running loglikelihood requests:  90%|█████████ | 5207/5768 [00:46<00:01, 474.70it/s]Running loglikelihood requests:  91%|█████████▏| 5267/5768 [00:46<00:01, 481.56it/s]Running loglikelihood requests:  92%|█████████▏| 5327/5768 [00:46<00:00, 486.59it/s]Running loglikelihood requests:  93%|█████████▎| 5393/5768 [00:47<00:00, 505.97it/s]Running loglikelihood requests:  95%|█████████▍| 5455/5768 [00:47<00:00, 501.95it/s]Running loglikelihood requests:  96%|█████████▌| 5515/5768 [00:47<00:00, 503.00it/s]Running loglikelihood requests:  97%|█████████▋| 5575/5768 [00:47<00:00, 504.90it/s]Running loglikelihood requests:  98%|█████████▊| 5635/5768 [00:47<00:00, 506.10it/s]Running loglikelihood requests:  99%|█████████▊| 5695/5768 [00:47<00:00, 516.10it/s]Running loglikelihood requests: 100%|██████████| 5768/5768 [00:47<00:00, 120.73it/s]
+Passed argument batch_size = auto:1. Detecting largest batch size
+Determined largest batch size: 15
+
+================================================================================
+  📊 벤치마크 평가 결과
+================================================================================
+
+  📌 ARC-Challenge (arc_challenge)
+     카테고리: 과학 추론 (Science Reasoning)
+     acc,none: 0.3051 (30.51%)
+     acc_stderr,none: ±0.0426
+     acc_norm,none: 0.3136 (31.36%)
+     acc_norm_stderr,none: ±0.0429
+
+  📌 BoolQ (boolq)
+     카테고리: 독해 / 질의응답 (Reading Comprehension)
+     acc,none: 0.6697 (66.97%)
+     acc_stderr,none: ±0.0260
+
+  📌 HellaSwag (hellaswag)
+     카테고리: 상식 추론 (Commonsense Reasoning)
+     acc,none: 0.4468 (44.68%)
+     acc_stderr,none: ±0.0157
+     acc_norm,none: 0.5632 (56.32%)
+     acc_norm_stderr,none: ±0.0157
+
+  📌 PIQA (piqa)
+     카테고리: 물리적 상식 (Physical Commonsense)
+     acc,none: 0.7283 (72.83%)
+     acc_stderr,none: ±0.0329
+     acc_norm,none: 0.7663 (76.63%)
+     acc_norm_stderr,none: ±0.0313
+
+  📌 WikiText (wikitext)
+     카테고리: 언어모델링 (Perplexity)
+     word_perplexity,none: 11.7204
+     byte_perplexity,none: 1.6061
+     bits_per_byte,none: 0.6836 (68.36%)
+
+  📌 WinoGrande (winogrande)
+     카테고리: 상식 추론 / 대명사 해석
+     acc,none: 0.6220 (62.20%)
+     acc_stderr,none: ±0.0432
+
+  💾 결과가 저장되었습니다: eval_results/results_20260415_231425.json
+
+================================================================================
+  ✅ 평가가 완료되었습니다!
+================================================================================
+

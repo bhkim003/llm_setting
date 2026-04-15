@@ -1,0 +1,253 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+================================================================================
+  🦙 Llama 3.2 1B 모델 구조 분석기
+  모델 경로: /data2/llm_download/Llama-3.2-1B
+================================================================================
+
+================================================================================
+  1단계: 모델 설정(Config) 확인
+================================================================================
+
+[모델 설정 전체 출력]
+LlamaConfig {
+  "architectures": [
+    "LlamaForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 128000,
+  "dtype": "bfloat16",
+  "eos_token_id": 128001,
+  "head_dim": 64,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 8192,
+  "max_position_embeddings": 131072,
+  "mlp_bias": false,
+  "model_type": "llama",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 16,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "pretraining_tp": 1,
+  "rms_norm_eps": 1e-05,
+  "rope_parameters": {
+    "factor": 32.0,
+    "high_freq_factor": 4.0,
+    "low_freq_factor": 1.0,
+    "original_max_position_embeddings": 8192,
+    "rope_theta": 500000.0,
+    "rope_type": "llama3"
+  },
+  "tie_word_embeddings": true,
+  "transformers_version": "5.5.4",
+  "use_cache": true,
+  "vocab_size": 128256
+}
+
+
+[주요 하이퍼파라미터 설명]
+  - hidden_size (은닉 차원): 2048
+    → 각 토큰이 모델 내부에서 표현되는 벡터의 크기입니다.
+  - num_hidden_layers (트랜스포머 레이어 수): 16
+    → 트랜스포머 블록이 몇 층 쌓여있는지를 나타냅니다.
+    → 층이 많을수록 모델이 더 복잡한 패턴을 학습할 수 있습니다.
+  - num_attention_heads (어텐션 헤드 수): 32
+    → 멀티헤드 어텐션에서 병렬로 동작하는 어텐션의 개수입니다.
+  - num_key_value_heads (KV 헤드 수): 8
+    → GQA(Grouped Query Attention)에서 Key/Value에 사용하는 헤드 수입니다.
+    → 어텐션 헤드 수보다 적으면 GQA를 사용하여 메모리를 절약합니다.
+  - intermediate_size (FFN 중간 차원): 8192
+    → Feed-Forward Network(FFN)의 중간 레이어 크기입니다.
+  - vocab_size (어휘 크기): 128256
+    → 모델이 인식할 수 있는 토큰(단어/서브워드)의 총 개수입니다.
+  - max_position_embeddings (최대 시퀀스 길이): 131072
+    → 모델이 한 번에 처리할 수 있는 최대 토큰 수입니다.
+  - rms_norm_eps (RMSNorm 엡실론): 1e-05
+    → 정규화 시 0으로 나누는 것을 방지하기 위한 아주 작은 값입니다.
+  - rope_theta (RoPE 베이스 주파수): 500000.0
+    → Rotary Position Embedding에서 사용하는 기저 주파수입니다.
+    → 위치 정보를 인코딩하는 데 사용됩니다.
+
+================================================================================
+  2단계: 모델 아키텍처 상세 분석
+================================================================================
+
+모델을 로딩 중입니다... (약간의 시간이 소요될 수 있습니다)
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights:   1%|          | 1/146 [00:00<00:29,  4.93it/s]Loading weights:  27%|██▋       | 40/146 [00:00<00:00, 159.92it/s]Loading weights:  45%|████▌     | 66/146 [00:00<00:00, 189.18it/s]Loading weights:  64%|██████▎   | 93/146 [00:00<00:00, 205.14it/s]Loading weights:  79%|███████▉  | 116/146 [00:00<00:00, 209.47it/s]Loading weights:  95%|█████████▌| 139/146 [00:00<00:00, 210.05it/s]Loading weights: 100%|██████████| 146/146 [00:00<00:00, 194.33it/s]
+
+[전체 모델 구조]
+LlamaForCausalLM(
+  (model): LlamaModel(
+    (embed_tokens): Embedding(128256, 2048)
+    (layers): ModuleList(
+      (0-15): 16 x LlamaDecoderLayer(
+        (self_attn): LlamaAttention(
+          (q_proj): Linear(in_features=2048, out_features=2048, bias=False)
+          (k_proj): Linear(in_features=2048, out_features=512, bias=False)
+          (v_proj): Linear(in_features=2048, out_features=512, bias=False)
+          (o_proj): Linear(in_features=2048, out_features=2048, bias=False)
+        )
+        (mlp): LlamaMLP(
+          (gate_proj): Linear(in_features=2048, out_features=8192, bias=False)
+          (up_proj): Linear(in_features=2048, out_features=8192, bias=False)
+          (down_proj): Linear(in_features=8192, out_features=2048, bias=False)
+          (act_fn): SiLUActivation()
+        )
+        (input_layernorm): LlamaRMSNorm((2048,), eps=1e-05)
+        (post_attention_layernorm): LlamaRMSNorm((2048,), eps=1e-05)
+      )
+    )
+    (norm): LlamaRMSNorm((2048,), eps=1e-05)
+    (rotary_emb): LlamaRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=2048, out_features=128256, bias=False)
+)
+
+================================================================================
+  3단계: 각 모듈별 상세 설명
+================================================================================
+
+[1] embed_tokens (토큰 임베딩 레이어)
+    Embedding(128256, 2048)
+    → 역할: 입력 토큰 ID(정수)를 고차원 벡터로 변환합니다.
+    → 예시: 토큰 ID 1234 → [0.12, -0.34, 0.56, ...] (hidden_size 차원의 벡터)
+    → 이 벡터가 트랜스포머 레이어의 입력이 됩니다.
+
+[2] layers (트랜스포머 블록) - 총 16개
+    → 역할: 모델의 핵심 부분으로, 입력을 반복적으로 처리하여
+      문맥을 이해하고 다음 토큰을 예측할 수 있는 표현을 만듭니다.
+
+  [2-1] self_attn (셀프 어텐션) - 레이어 0 기준
+       LlamaAttention(
+  (q_proj): Linear(in_features=2048, out_features=2048, bias=False)
+  (k_proj): Linear(in_features=2048, out_features=512, bias=False)
+  (v_proj): Linear(in_features=2048, out_features=512, bias=False)
+  (o_proj): Linear(in_features=2048, out_features=2048, bias=False)
+)
+       → 역할: 입력 시퀀스의 각 토큰이 다른 모든 토큰과의 관계를
+         계산하여 문맥 정보를 반영합니다.
+       → '나는 사과를 먹었다'에서 '먹었다'가 '사과를'에 주목하는 것처럼,
+         어떤 토큰이 어떤 토큰에 주의를 기울여야 하는지 학습합니다.
+
+    [2-1-a] q_proj (Query 프로젝션)
+            Linear(in_features=2048, out_features=2048, bias=False)
+            → 역할: 입력을 Query 벡터로 변환합니다.
+            → Query는 '내가 무엇을 찾고 있는가'를 나타냅니다.
+
+    [2-1-b] k_proj (Key 프로젝션)
+            Linear(in_features=2048, out_features=512, bias=False)
+            → 역할: 입력을 Key 벡터로 변환합니다.
+            → Key는 '나는 어떤 정보를 가지고 있는가'를 나타냅니다.
+
+    [2-1-c] v_proj (Value 프로젝션)
+            Linear(in_features=2048, out_features=512, bias=False)
+            → 역할: 입력을 Value 벡터로 변환합니다.
+            → Value는 '실제로 전달할 정보의 내용'입니다.
+
+    [2-1-d] o_proj (Output 프로젝션)
+            Linear(in_features=2048, out_features=2048, bias=False)
+            → 역할: 어텐션 결과를 원래 차원으로 다시 변환합니다.
+            → 여러 어텐션 헤드의 결과를 합친 후 최종 출력을 만듭니다.
+
+  [2-2] mlp (Multi-Layer Perceptron / 피드포워드 네트워크)
+       LlamaMLP(
+  (gate_proj): Linear(in_features=2048, out_features=8192, bias=False)
+  (up_proj): Linear(in_features=2048, out_features=8192, bias=False)
+  (down_proj): Linear(in_features=8192, out_features=2048, bias=False)
+  (act_fn): SiLUActivation()
+)
+       → 역할: 어텐션이 모은 정보를 비선형 변환하여 더 풍부한 표현을 만듭니다.
+       → Llama는 SwiGLU 활성화 함수를 사용합니다.
+
+    [2-2-a] gate_proj (게이트 프로젝션)
+            Linear(in_features=2048, out_features=8192, bias=False)
+            → 역할: SwiGLU에서 게이팅(정보 흐름 제어)에 사용됩니다.
+
+    [2-2-b] up_proj (업 프로젝션)
+            Linear(in_features=2048, out_features=8192, bias=False)
+            → 역할: 입력을 더 높은 차원(intermediate_size)으로 확장합니다.
+
+    [2-2-c] down_proj (다운 프로젝션)
+            Linear(in_features=8192, out_features=2048, bias=False)
+            → 역할: 확장된 차원을 다시 원래 차원(hidden_size)으로 줄입니다.
+
+  [2-3] input_layernorm (입력 레이어 정규화)
+       LlamaRMSNorm((2048,), eps=1e-05)
+       → 역할: 셀프 어텐션에 입력되기 전에 값을 정규화합니다.
+       → RMSNorm을 사용하여 학습 안정성을 높입니다.
+       → Pre-Norm 구조: 레이어 입력 전에 정규화를 수행합니다.
+
+  [2-4] post_attention_layernorm (어텐션 후 레이어 정규화)
+       LlamaRMSNorm((2048,), eps=1e-05)
+       → 역할: MLP에 입력되기 전에 값을 정규화합니다.
+
+[3] norm (최종 RMSNorm)
+    LlamaRMSNorm((2048,), eps=1e-05)
+    → 역할: 마지막 트랜스포머 레이어의 출력을 정규화합니다.
+    → lm_head에 입력되기 전 최종 정규화 단계입니다.
+
+[4] lm_head (언어 모델 헤드)
+    Linear(in_features=2048, out_features=128256, bias=False)
+    → 역할: 트랜스포머의 출력을 어휘(vocabulary) 크기의 로짓(logits)으로 변환합니다.
+    → 이 로짓에 softmax를 적용하면 다음 토큰의 확률 분포가 됩니다.
+    → 예시: [0.01, 0.02, ..., 0.85, ...] → '사과' 토큰이 85% 확률로 다음에 올 것
+
+================================================================================
+  4단계: 모델 파라미터 통계
+================================================================================
+
+  총 파라미터 수: 1,235,814,400 (1.24B)
+  학습 가능 파라미터 수: 1,235,814,400 (1.24B)
+  모델 메모리 (FP16 기준): 약 2.47 GB
+
+[레이어별 파라미터 수]
+  model.embed_tokens.weight                                    | shape: torch.Size([128256, 2048])     | 파라미터 수:  262,668,288
+  model.layers.0.self_attn.q_proj.weight                       | shape: torch.Size([2048, 2048])       | 파라미터 수:    4,194,304
+  model.layers.0.self_attn.k_proj.weight                       | shape: torch.Size([512, 2048])        | 파라미터 수:    1,048,576
+  model.layers.0.self_attn.v_proj.weight                       | shape: torch.Size([512, 2048])        | 파라미터 수:    1,048,576
+  model.layers.0.self_attn.o_proj.weight                       | shape: torch.Size([2048, 2048])       | 파라미터 수:    4,194,304
+  model.layers.0.mlp.gate_proj.weight                          | shape: torch.Size([8192, 2048])       | 파라미터 수:   16,777,216
+  model.layers.0.mlp.up_proj.weight                            | shape: torch.Size([8192, 2048])       | 파라미터 수:   16,777,216
+  model.layers.0.mlp.down_proj.weight                          | shape: torch.Size([2048, 8192])       | 파라미터 수:   16,777,216
+  model.layers.0.input_layernorm.weight                        | shape: torch.Size([2048])             | 파라미터 수:        2,048
+  model.layers.0.post_attention_layernorm.weight               | shape: torch.Size([2048])             | 파라미터 수:        2,048
+  model.norm.weight                                            | shape: torch.Size([2048])             | 파라미터 수:        2,048
+
+================================================================================
+  5단계: 토크나이저 분석
+================================================================================
+
+  토크나이저 타입: TokenizersBackend
+  어휘 크기: 128,000
+  모델 최대 길이: 131,072
+  특수 토큰들:
+    - BOS (시작) 토큰: '<|begin_of_text|>' (ID: 128000)
+    - EOS (종료) 토큰: '<|end_of_text|>' (ID: 128001)
+    - PAD (패딩) 토큰: 설정되지 않음
+
+[토크나이저 동작 예시]
+
+  입력: 'Hello, how are you?'
+  토큰 ID: [128000, 9906, 11, 1268, 527, 499, 30]
+  디코딩된 토큰: ['<|begin_of_text|>', 'Hello', ',', ' how', ' are', ' you', '?']
+  토큰 수: 7
+
+  입력: '대한민국의 수도는 서울입니다.'
+  토큰 ID: [128000, 113760, 108709, 21028, 116992, 16969, 106010, 80052, 13]
+  디코딩된 토큰: ['<|begin_of_text|>', '대한', '민국', '의', ' 수도', '는', ' 서울', '입니다', '.']
+  토큰 수: 9
+
+  입력: 'The capital of South Korea is Seoul.'
+  토큰 ID: [128000, 791, 6864, 315, 4987, 12126, 374, 51289, 13]
+  디코딩된 토큰: ['<|begin_of_text|>', 'The', ' capital', ' of', ' South', ' Korea', ' is', ' Seoul', '.']
+  토큰 수: 9
+
+================================================================================
+  분석 완료!
+================================================================================
+
+  모든 분석이 완료되었습니다.
+  이제 run_lm_eval.py를 실행하여 벤치마크 평가를 진행할 수 있습니다.
+

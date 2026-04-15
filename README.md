@@ -90,8 +90,8 @@ python run_lm_eval.py        # 벤치마크 평가
 
 | 옵션 | 설명 |
 |------|------|
-| `./run_eval.sh` | 기본 실행 (모델 분석 + 기본 벤치마크) |
-| `./run_eval.sh --quick` | 빠른 테스트 (10% 샘플만 사용) |
+| `./run_eval.sh` | 기본 실행 (모델 분석 + 빠른 테스트 10% + 비교 리포트 생성) |
+| `./run_eval.sh --quick` | 빠른 테스트 (10% 샘플만 사용, wikitext perplexity 포함) |
 | `./run_eval.sh --full` | 전체 벤치마크 (모든 태스크) |
 | `./run_eval.sh --eval-only` | 모델 분석 건너뛰고 평가만 실행 |
 
@@ -102,7 +102,12 @@ python run_lm_eval.py                        # 기본 태스크 평가
 python run_lm_eval.py --tasks hellaswag      # 특정 태스크만 평가
 python run_lm_eval.py --tasks all            # 모든 기본 태스크 평가
 python run_lm_eval.py --batch_size 8         # 배치 사이즈 조정
+
+# 결과 비교 리포트 생성 (.log)
+python compare_benchmarks.py --result eval_results/results_YYYYMMDD_HHMMSS.json
 ```
+
+> 기본 파이프라인(`./run_eval.sh`)은 평가 완료 후 자동으로 비교 리포트 파일(`comparison_report_*.log`)을 생성합니다.
 
 ---
 
@@ -136,6 +141,7 @@ LlamaForCausalLM
 | **TruthfulQA** | 사실성 | 모델의 허위 정보 생성 경향 평가 |
 | **Winogrande** | 상식 추론 | 대명사 지칭 대상 추론 |
 | **GSM8K** | 수학 추론 | 초등학교 수준 수학 문제 |
+| **WikiText** | 언어모델링 | Perplexity(낮을수록 좋음) 보고 |
 
 ---
 

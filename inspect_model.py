@@ -69,9 +69,18 @@ def inspect_config() -> None:
     print("    → 모델이 한 번에 처리할 수 있는 최대 토큰 수입니다.")
     print(f"  - rms_norm_eps (RMSNorm 엡실론): {config.rms_norm_eps}")
     print("    → 정규화 시 0으로 나누는 것을 방지하기 위한 아주 작은 값입니다.")
-    print(f"  - rope_theta (RoPE 베이스 주파수): {config.rope_theta}")
-    print("    → Rotary Position Embedding에서 사용하는 기저 주파수입니다.")
-    print("    → 위치 정보를 인코딩하는 데 사용됩니다.")
+    rope_theta = getattr(config, "rope_theta", None)
+    if rope_theta is None:
+        rope_params = getattr(config, "rope_parameters", None)
+        if isinstance(rope_params, dict):
+            rope_theta = rope_params.get("rope_theta")
+
+    if rope_theta is not None:
+        print(f"  - rope_theta (RoPE 베이스 주파수): {rope_theta}")
+        print("    → Rotary Position Embedding에서 사용하는 기저 주파수입니다.")
+        print("    → 위치 정보를 인코딩하는 데 사용됩니다.")
+    else:
+        print("  - rope_theta (RoPE 베이스 주파수): 설정에서 찾지 못했습니다.")
 
 
 def inspect_model_architecture() -> None:

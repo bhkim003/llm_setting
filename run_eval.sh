@@ -8,7 +8,7 @@
 #
 #  사용법:
 #    chmod +x run_eval.sh   # 실행 권한 부여 (최초 1회)
-#    ./run_eval.sh           # 기본 실행 (모델 분석 + 기본 벤치마크)
+#    ./run_eval.sh           # 기본 실행 (모델 분석 + 빠른 테스트 10%)
 #    ./run_eval.sh --quick   # 빠른 테스트 (10% 샘플만)
 #    ./run_eval.sh --full    # 전체 벤치마크 (모든 태스크)
 #    ./run_eval.sh --eval-only  # 모델 분석 건너뛰고 평가만 실행
@@ -16,6 +16,10 @@
 # =============================================================================
 
 set -euo pipefail  # 에러 발생 시 즉시 중단, 미정의 변수 사용 시 에러, 파이프라인 에러 감지
+
+# 기본 실행 모드 (인자가 없을 때): 빠른 테스트
+# LLM 기초 학습 단계에서 전체 플로우를 짧게 경험하기에 적합합니다.
+RUN_MODE="${1:---quick}"
 
 # =============================================================================
 # 환경 변수 설정
@@ -28,7 +32,7 @@ export MODEL_PATH="/data2/llm_download/Llama-3.2-1B"
 # - 사용할 GPU 번호를 지정합니다 (0부터 시작)
 # - 여러 개 사용하려면: export CUDA_VISIBLE_DEVICES=0,1
 # - GPU가 없으면 이 줄을 주석처리하면 CPU로 동작합니다
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=1
 
 # Hugging Face 캐시 디렉토리 (선택사항)
 # - 토크나이저나 데이터셋을 캐싱할 경로를 지정합니다
@@ -151,7 +155,7 @@ fi
 # =============================================================================
 
 # --eval-only 옵션이 아닌 경우에만 모델 분석 실행
-if [[ "$1" != "--eval-only" ]]; then
+if [[ "$RUN_MODE" != "--eval-only" ]]; then
     print_header "3단계: 모델 구조 분석"
     echo "Llama 3.2 1B 모델의 내부 구조를 분석합니다..."
     echo ""
@@ -172,7 +176,7 @@ print_header "4단계: lm_eval 벤치마크 평가"
 # 실행 모드에 따른 옵션 설정
 EVAL_ARGS=""
 
-case "$1" in
+case "$RUN_MODE" in
     --quick)
         # 빠른 테스트 모드: 10% 샘플만 사용
         echo "🏃 빠른 테스트 모드 (10% 샘플)"
@@ -205,14 +209,30 @@ mkdir -p eval_results
 
 # 타임스탬프 생성
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+RESULT_JSON="eval_results/results_${TIMESTAMP}.json"
+EVAL_LOG="eval_results/eval_log_${TIMESTAMP}.log"
+COMPARE_LOG="eval_results/comparison_report_${TIMESTAMP}.log"
 
 # lm_eval 실행
 $PYTHON_CMD run_lm_eval.py \
     $EVAL_ARGS \
-    --output "eval_results/results_${TIMESTAMP}.json" \
-    2>&1 | tee "eval_results/eval_log_${TIMESTAMP}.log"
+    --output "$RESULT_JSON" \
+    2>&1 | tee "$EVAL_LOG"
 
 print_success "벤치마크 평가 완료!"
+
+# 비교 리포트 자동 생성 (기준 모델 대비)
+if [ -f "compare_benchmarks.py" ]; then
+    echo ""
+    echo "기준 모델 비교 리포트를 생성합니다..."
+    $PYTHON_CMD compare_benchmarks.py \
+        --result "$RESULT_JSON" \
+        --output "$COMPARE_LOG" \
+        --model-name "Llama-3.2-1B (this run)"
+    print_success "비교 리포트 생성 완료: $COMPARE_LOG"
+else
+    print_warning "compare_benchmarks.py를 찾지 못해 비교 리포트 생성을 건너뜁니다."
+fi
 
 # =============================================================================
 # 5단계: 결과 요약
@@ -227,7 +247,8 @@ echo ""
 print_success "모든 작업이 완료되었습니다!"
 echo ""
 echo "다음 명령어로 결과를 확인할 수 있습니다:"
-echo "  cat eval_results/results_${TIMESTAMP}.json | $PYTHON_CMD -m json.tool"
+echo "  cat $RESULT_JSON | $PYTHON_CMD -m json.tool"
+echo "  cat $COMPARE_LOG"
 echo ""
 echo "다른 옵션으로 다시 실행하려면:"
 echo "  ./run_eval.sh --quick      # 빠른 테스트 (10% 샘플)"
