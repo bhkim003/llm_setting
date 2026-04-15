@@ -15,7 +15,7 @@
 #
 # =============================================================================
 
-set -e  # 에러 발생 시 스크립트 즉시 중단
+set -euo pipefail  # 에러 발생 시 즉시 중단, 미정의 변수 사용 시 에러, 파이프라인 에러 감지
 
 # =============================================================================
 # 환경 변수 설정
@@ -80,12 +80,18 @@ print_error() {
 
 print_header "1단계: 환경 확인"
 
-# Python 버전 확인
-echo "Python 버전:"
-python3 --version 2>/dev/null || python --version 2>/dev/null || {
+# Python 버전 확인 및 명령어 저장
+# python3을 우선 사용하고, 없으면 python을 사용합니다
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD="python3"
+elif command -v python &> /dev/null; then
+    PYTHON_CMD="python"
+else
     print_error "Python이 설치되어 있지 않습니다!"
     exit 1
-}
+fi
+
+echo "Python 버전: $($PYTHON_CMD --version)"
 
 # GPU 확인
 echo ""
@@ -150,7 +156,7 @@ if [[ "$1" != "--eval-only" ]]; then
     echo "Llama 3.2 1B 모델의 내부 구조를 분석합니다..."
     echo ""
 
-    python3 inspect_model.py 2>&1 | tee model_inspection.log
+    $PYTHON_CMD inspect_model.py 2>&1 | tee model_inspection.log
 
     print_success "모델 분석 완료 (로그: model_inspection.log)"
 else
@@ -201,7 +207,7 @@ mkdir -p eval_results
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 # lm_eval 실행
-python3 run_lm_eval.py \
+$PYTHON_CMD run_lm_eval.py \
     $EVAL_ARGS \
     --output "eval_results/results_${TIMESTAMP}.json" \
     2>&1 | tee "eval_results/eval_log_${TIMESTAMP}.log"
@@ -221,7 +227,7 @@ echo ""
 print_success "모든 작업이 완료되었습니다!"
 echo ""
 echo "다음 명령어로 결과를 확인할 수 있습니다:"
-echo "  cat eval_results/results_${TIMESTAMP}.json | python3 -m json.tool"
+echo "  cat eval_results/results_${TIMESTAMP}.json | $PYTHON_CMD -m json.tool"
 echo ""
 echo "다른 옵션으로 다시 실행하려면:"
 echo "  ./run_eval.sh --quick      # 빠른 테스트 (10% 샘플)"

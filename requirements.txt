@@ -3,6 +3,11 @@
 # =============================================================================
 
 # PyTorch - 딥러닝 프레임워크 (GPU 사용 시 CUDA 버전에 맞게 설치 필요)
+# ※ CUDA 버전에 맞는 PyTorch 설치가 필요합니다.
+#    공식 사이트에서 본인 환경에 맞는 명령어를 확인하세요:
+#    https://pytorch.org/get-started/locally/
+#    예시 (CUDA 12.1): pip install torch --index-url https://download.pytorch.org/whl/cu121
+#    예시 (CUDA 11.8): pip install torch --index-url https://download.pytorch.org/whl/cu118
 torch>=2.1.0
 
 # Hugging Face Transformers - LLM 모델 로딩 및 추론에 사용

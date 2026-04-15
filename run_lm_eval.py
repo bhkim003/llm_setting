@@ -454,7 +454,7 @@ def main() -> None:
   python run_lm_eval.py                              # 기본 태스크로 평가
   python run_lm_eval.py --tasks hellaswag arc_challenge  # 특정 태스크 지정
   python run_lm_eval.py --tasks all                  # 모든 정의된 태스크 평가
-  python run_lm_eval.py --limit 0.1                  # 10%% 샘플만 빠르게 테스트
+  python run_lm_eval.py --limit 0.1                  # 10% 샘플만 빠르게 테스트
   python run_lm_eval.py --batch_size 4               # 배치 사이즈 조정
   python run_lm_eval.py --num_fewshot 0              # zero-shot으로 평가
         """
