@@ -1,0 +1,26 @@
+# =============================================================================
+# Llama 3.2 1B 모델 로딩 및 lm_eval 벤치마크 실행에 필요한 패키지 목록
+# =============================================================================
+
+# PyTorch - 딥러닝 프레임워크 (GPU 사용 시 CUDA 버전에 맞게 설치 필요)
+# ※ CUDA 버전에 맞는 PyTorch 설치가 필요합니다.
+#    공식 사이트에서 본인 환경에 맞는 명령어를 확인하세요:
+#    https://pytorch.org/get-started/locally/
+#    예시 (CUDA 12.1): pip install torch --index-url https://download.pytorch.org/whl/cu121
+#    예시 (CUDA 11.8): pip install torch --index-url https://download.pytorch.org/whl/cu118
+torch>=2.1.0
+
+# Hugging Face Transformers - LLM 모델 로딩 및 추론에 사용
+transformers>=4.40.0
+
+# lm-evaluation-harness - LLM 벤치마크 평가 프레임워크
+lm-eval>=0.4.0
+
+# Accelerate - 멀티 GPU / 혼합 정밀도 학습 지원
+accelerate>=0.25.0
+
+# SentencePiece - Llama 토크나이저가 사용하는 서브워드 토크나이저
+sentencepiece>=0.1.99
+
+# Protobuf - SentencePiece 모델 파일 파싱에 필요
+protobuf>=3.20.0
